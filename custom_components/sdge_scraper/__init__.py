@@ -7,7 +7,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "gas_usage"  # Ensure this matches your config flow and other files
+DOMAIN = "sdge_usage"  # Ensure this matches your config flow and other files
 SCAN_INTERVAL = timedelta(hours=24)
 
 async def async_setup(hass: HomeAssistant, config: dict):
