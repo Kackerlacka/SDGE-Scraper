@@ -1,0 +1,11 @@
+{
+    "domain": "sdge_usage",
+    "name": "SDGE Usage",
+    "version": "v0.0.6-alpha",
+    "documentation": "https://github.com/kackerlacka/sdge-scraper",
+    "dependencies": [],
+    "codeowners": ["@kackerlacka"],
+    "requirements": ["requests", "openpyxl"],
+    "homeassistant": "2023.3.0",
+    "iot_class": "cloud_polling"
+}
