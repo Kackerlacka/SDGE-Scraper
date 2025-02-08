@@ -1,7 +1,7 @@
 {
     "domain": "sdge_scraper",
     "name": "SDGE Scraper",
-    "version": "1.0.0",  // Make sure this is a valid version string
+    "version": "1.0.0",
     "documentation": "https://github.com/kackerlacka/sdge-scraper",
     "dependencies": [],
     "codeowners": ["@kackerlacka"],
