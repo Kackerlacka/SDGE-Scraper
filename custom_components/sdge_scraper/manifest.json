@@ -1,15 +1,11 @@
 {
-    "domain": "sdge_usage_integration",
-    "name": "SDGE Usage",
-    "version": "1.0",
+    "domain": "sdge_scraper",
+    "name": "SDGE Scraper",
+    "version": "1.0.0",  // Make sure this is a valid version string
+    "documentation": "https://github.com/kackerlacka/sdge-scraper",
     "dependencies": [],
-    "requirements": [
-      "requests",
-      "pandas"
-    ],
-    "codeowners": [
-      "@Kackerlacka"
-    ],
-    "homeassistant": "2025.2.0"
-  }
-  
+    "codeowners": ["@kackerlacka"],
+    "requirements": ["requests", "openpyxl"],
+    "homeassistant": "2023.3.0",
+    "iot_class": "cloud_polling"
+}
