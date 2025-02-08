@@ -1,4 +1,5 @@
 import logging
+import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
@@ -49,11 +50,17 @@ class GasUsageConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     def _validate_credentials(self, username, password):
         """Validate the credentials."""
         try:
+            # Example: Simulate credential validation by checking hardcoded values (replace with actual validation)
+            if username == "your_username" and password == "your_password":
+                return True
+
             # You can make an HTTP request here to validate credentials with an external service
             # For example:
             # response = requests.post(SOME_URL, data={"username": username, "password": password})
             # if response.status_code == 200:
-            return True
+            #     return True
+            
+            return False
         except Exception as e:
             _LOGGER.error(f"Error validating credentials: {e}")
             return False
