@@ -1,27 +1,24 @@
 import logging
 from datetime import timedelta
-import requests
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import discovery
-from homeassistant.helpers.entity import Entity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "my_gas_usage_integration"
+DOMAIN = "gas_usage"  # Ensure this matches your config flow and other files
 SCAN_INTERVAL = timedelta(hours=24)
 
 async def async_setup(hass: HomeAssistant, config: dict):
-    """Set up the Gas Usage Integration."""
-    _LOGGER.info("Setting up Gas Usage Integration")
+    """Set up the SDGE Usage Integration."""
+    _LOGGER.info("Setting up SDGE Usage Integration")
     return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    """Set up Gas Usage from a config entry."""
-    _LOGGER.info("Setting up Gas Usage from config entry")
+    """Set up SDGE Usage from a config entry."""
+    _LOGGER.info("Setting up SDGE Usage from config entry")
     
     # Retrieve username and password from config entry data
     username = entry.data["username"]
@@ -30,8 +27,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     # Store the username and password in hass data for use by the sensor
     hass.data[DOMAIN] = {"username": username, "password": password}
     
-    # Register the sensor platform
-    discovery.load_platform(hass, "sensor", DOMAIN, {}, entry)
+    # Register the sensor platform directly without discovery
+    hass.helpers.entity_component.async_add_entities(
+        [GasUsageSensor(hass, username, password)], update_before_add=True
+    )
 
     return True
 
