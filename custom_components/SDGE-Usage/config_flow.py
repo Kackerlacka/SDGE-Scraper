@@ -10,7 +10,7 @@ from .scraper import run_scraper  # Import the scraper function to validate cred
 _LOGGER = logging.getLogger(__name__)
 
 class GasUsageConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Gas Usage Integration."""
+    """Handle a config flow for SDGE Usage Integration."""
 
     VERSION = 1
 
