@@ -5,7 +5,7 @@
     "documentation": "https://github.com/kackerlacka/sdge-scraper",
     "dependencies": [],
     "codeowners": ["@kackerlacka"],
-    "requirements": ["requests", "openpyxl"],
+    "requirements": ["requests", "openpyxl", "selenium", "webdriver-manager"],
     "homeassistant": "2023.3.0",
     "iot_class": "cloud_polling",
     "config_flow": true,
