@@ -5,6 +5,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity import Entity
 
+# Import your scraper class
+from .scraper import Scraper  # Assuming scraper.py is in the same directory
+
 _LOGGER = logging.getLogger(__name__)
 
 DOMAIN = "sdge_usage"  # Ensure this matches your config flow and other files
@@ -27,9 +30,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     # Store the username and password in hass data for use by the sensor
     hass.data[DOMAIN] = {"username": username, "password": password}
     
+    # Initialize the scraper
+    scraper = Scraper(username, password)
+
+    # Start the scraper task asynchronously
+    hass.loop.create_task(scraper.run())  # Make sure scraper.run() is an async method
+
     # Register the sensor platform directly without discovery
     hass.helpers.entity_component.async_add_entities(
-        [GasUsageSensor(hass, username, password)], update_before_add=True
+        [GasUsageSensor(hass, scraper)], update_before_add=True
     )
 
     return True
@@ -38,17 +47,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 class GasUsageSensor(Entity):
     """Representation of a Gas Usage Sensor."""
 
-    def __init__(self, hass, username, password):
+    def __init__(self, hass, scraper: Scraper):
         """Initialize the sensor."""
         self.hass = hass
-        self.username = username
-        self.password = password
+        self.scraper = scraper  # Store the scraper instance
         self._state = None
 
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"Gas Usage - {self.username}"
+        return f"Gas Usage - {self.scraper.username}"
 
     @property
     def state(self):
@@ -57,18 +65,14 @@ class GasUsageSensor(Entity):
 
     def update(self):
         """Update the sensor state."""
-        # Call the method to fetch the daily usage (you should implement the scraping logic)
-        self._state = self.fetch_daily_usage()
+        # Call the scraper to fetch the daily usage
+        self._state = self.scraper.fetch_daily_usage()
 
     def fetch_daily_usage(self):
-        """Scrape the data and return the daily gas usage."""
+        """Fetch the daily gas usage data."""
         try:
             _LOGGER.info("Fetching gas usage data...")
-            # Example: Sending login request and fetching data
-            # response = requests.post(url, data={'username': self.username, 'password': self.password})
-            # Parse the fetched data
-            # For now, returning a dummy value
-            return 1.03  # Example daily consumption value in your case
+            return self.scraper.fetch_daily_usage()  # Use the scraper's method to fetch data
         except Exception as e:
             _LOGGER.error(f"Failed to fetch gas usage data: {e}")
             return None
