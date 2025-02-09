@@ -15,8 +15,9 @@ password = "home_assistant_password"  # This will come from Home Assistant
 # Set up Chrome options
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")  # Open Chrome in default size (not maximized)
+options.add_argument("--headless")  # Enable headless mode (no UI)
 # Optionally, set a download directory to auto-download files
-prefs = {"download.default_directory": r"C:\Users\scout\Downloads"}  # Update with your desired path
+prefs = {"download.default_directory": "/config/www/downloads"}  # Update with a path inside Home Assistant OS
 options.add_experimental_option("prefs", prefs)
 
 # Set up WebDriver
@@ -101,7 +102,7 @@ except Exception as e:
 # Optionally, continue with scraping or other tasks after this point
 
 # Now that the file is downloaded, locate the most recent downloaded file in the directory
-download_dir = r"C:\Users\scout\Downloads"
+download_dir = "/config/www/downloads"  # Updated to Home Assistant OS path
 files = os.listdir(download_dir)
 
 # Filter out the Excel files
