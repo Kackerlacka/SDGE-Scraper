@@ -7,6 +7,10 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import logging
+
+# Get the logger for this file
+_LOGGER = logging.getLogger(__name__)
 
 def run_scraper(username, password):
     """Function to run the scraper and return processed data."""
@@ -57,7 +61,7 @@ def run_scraper(username, password):
             )
             close_button.click()  # Close the modal/overlay
         except:
-            print("No modal overlay found.")
+            _LOGGER.info("No modal overlay found.")
 
         # Scroll the dropdown into view
         meter_dropdown = driver.find_element(By.CSS_SELECTOR, "#select_value_label_0")
@@ -105,10 +109,13 @@ def run_scraper(username, password):
         data = df.iloc[:, [1, 4]]
         data.columns = ['Date', 'Consumed']
         
+        # Log the DataFrame content
+        _LOGGER.info(f"Scraped Gas Usage Data: {data.head()}")  # Log first few rows of the data
+        
         return data  # Return the cleaned data (Date and Consumed)
     
     except Exception as e:
-        print("Error during scraping:", e)
+        _LOGGER.error(f"Error during scraping: {e}")
         return None
     finally:
         driver.quit()  # Make sure to close the browser when done
